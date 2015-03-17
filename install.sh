@@ -4,16 +4,29 @@ echo " --- Hello Baddy! --- "
 echo " --- Update packages Lists --- "
 sudo apt-get update
 
-
-echo are you sure, you want to remove apache2?	
+echo "You want to install apache2 or nginx?"
 	read x
-	if [ "$x" = "yes" ]
-	then
-	  	echo " --- Remove apache2 via server --- "
+	if [ "$x" = "apache2" ]; then
+		echo " --- Remove nginx via server --- "
+		sudo apt-get purge nginx
+
+		echo " --- Re updating packages --- "
+		sudo apt-get update
+
+		echo " -- It's time for apache2 -- "
+		sudo apt-get install apache2
+	fi
+	if [ "$x" = "nginx" ]; then
+		echo " --- Remove apache2 via server --- "
 		sudo apt-get purge apache2*
 
 		echo " --- Re updating packages --- "
 		sudo apt-get update
+
+		echo " --- It's Time For Nginx Baddy --- "
+		sudo add-apt-repository -y ppa:nginx/stable
+		sudo apt-get update
+		sudo apt-get install -y nginx
 	fi
 
 echo " --- Installing Base Packages --- "
@@ -27,16 +40,6 @@ echo are you sure, you want to install PHP?
 		sudo add-apt-repository -y ppa:ondrej/php5
 		sudo apt-get update
 		sudo apt-get install -y php5 apache2 libapache2-mod-php5 php5-curl php5-gd php5-mcrypt mysql-server-5.5 php5-mysql git-core
-	fi
-
-echo are you sure, you want to install Nginx?
-	read x
-	if [ "$x" = "yes" ]
-	then
-	  	echo " --- It's Time For Nginx Baddy --- "
-		sudo add-apt-repository -y ppa:nginx/stable
-		sudo apt-get update
-		sudo apt-get install -y nginx
 	fi
 
 echo are you sure, you want to install MySQL?
